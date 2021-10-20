@@ -1,0 +1,506 @@
+
+
+Wed Oct 20 12:26:08 2021
+Command line: TestDisk
+
+TestDisk 7.1, Data Recovery Utility, July 2019
+Christophe GRENIER <grenier@cgsecurity.org>
+https://www.cgsecurity.org
+OS: Linux, kernel 5.10.0-8-amd64 (#1 SMP Debian 5.10.46-5 (2021-09-23)) x86_64
+Compiler: GCC 9.2
+ext2fs lib: 1.46.2, ntfs lib: libntfs-3g, reiserfs lib: none, ewf lib: none, curses lib: ncurses 6.1
+/dev/sda: LBA, HPA, LBA48, DCO support
+/dev/sda: size       1953525168 sectors
+/dev/sda: user_max   1953525168 sectors
+/dev/sda: native_max 1953525168 sectors
+/dev/sda: dco        1953525168 sectors
+Warning: can't get size for Disk /dev/mapper/control - 0 B - 0 sectors, sector size=512
+Hard disk list
+Disk /dev/sda - 1000 GB / 931 GiB - CHS 121601 255 63, sector size=512 - ST1000LM049-2GH172, S/N:WGS5V2YG, FW:LXM3
+Disk /dev/nvme0n1 - 128 GB / 119 GiB - CHS 122104 64 32, sector size=512
+
+Partition table type (auto): EFI GPT
+Disk /dev/sda - 1000 GB / 931 GiB - ST1000LM049-2GH172
+Partition table type: Intel
+
+Interface Advanced
+Geometry from i386 MBR: head=256 sector=63
+check_part_i386 1 type EE: no test
+ 1 P EFI GPT                  0   0  2 121601  80 63 1953525167
+Partition table type (auto): EFI GPT
+Disk /dev/sda - 1000 GB / 931 GiB - ST1000LM049-2GH172
+Partition table type: EFI GPT
+
+Analyse Disk /dev/sda - 1000 GB / 931 GiB - CHS 121601 255 63
+hdr_size=92
+hdr_lba_self=1
+hdr_lba_alt=1953525167 (expected 1953525167)
+hdr_lba_start=34
+hdr_lba_end=1953525134
+hdr_lba_table=2
+hdr_entries=128
+hdr_entsz=128
+check_part_gpt failed for partition
+ 2 P MS Reserved            819202048  819234815      32768 [Microsoft reserved partition]
+Current partition structure:
+ 1 P MS Data                     2048  819202047  819200000 [Basic data partition] [ARCHIVE]
+No FAT, NTFS, ext2, JFS, Reiser, cramfs or XFS marker
+ 2 P MS Reserved            819202048  819234815      32768 [Microsoft reserved partition]
+ 2 P MS Reserved            819202048  819234815      32768 [Microsoft reserved partition]
+ 3 P MS Data                819234816 1748723711  929488896 [Basic data partition] [DATA]
+ 4 P EFI System            1748723712 1749774335    1050624
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+ 6 P Linux Swap            1951524864 1953523711    1998848
+
+search_part()
+Disk /dev/sda - 1000 GB / 931 GiB - CHS 121601 255 63
+NTFS at 0/32/33
+filesystem size           819200000
+sectors_per_cluster       8
+mft_lcn                   786432
+mftmirr_lcn               2
+clusters_per_mft_record   -10
+clusters_per_index_record 1
+NTFS part_offset=1048576, part_size=419430400000, sector_size=512
+NTFS partition cannot be added (part_offset<part_size).
+NTFS at 0/32/33
+filesystem size           819200000
+sectors_per_cluster       8
+mft_lcn                   786432
+mftmirr_lcn               2
+clusters_per_mft_record   -10
+clusters_per_index_record 1
+     MS Data                     2048  819202047  819200000 [ARCHIVE]
+     NTFS, blocksize=4096, 419 GB / 390 GiB
+NTFS at 50995/2/16
+filesystem size           929488896
+sectors_per_cluster       8
+mft_lcn                   786432
+mftmirr_lcn               2
+clusters_per_mft_record   -10
+clusters_per_index_record 1
+NTFS part_offset=419448225792, part_size=475898314752, sector_size=512
+NTFS partition cannot be added (part_offset<part_size).
+NTFS at 50995/2/16
+filesystem size           929488896
+sectors_per_cluster       8
+mft_lcn                   786432
+mftmirr_lcn               2
+clusters_per_mft_record   -10
+clusters_per_index_record 1
+     MS Data                819234816 1748723711  929488896 [DATA]
+     NTFS, blocksize=4096, 475 GB / 443 GiB
+FAT32 at 108853/4/16
+FAT1 : 32-1055
+FAT2 : 1056-2079
+start_rootdir : 2080 root cluster : 2
+Data : 2080-1050583
+sectors : 1050588
+cluster_size : 8
+no_of_cluster : 131063 (2 - 131064)
+fat_length 1024 calculated 1024
+set_FAT_info: name from BS used
+
+FAT32 at 108853/4/16
+FAT: cluster=2(0x2), pos=1748725792
+     EFI System            1748723712 1749774299    1050588 [EFI System Partition] [NO NAME]
+     FAT32, blocksize=4096, 537 MB / 512 MiB
+Search for partition aborted
+
+Results
+   P MS Data                     2048  819202047  819200000 [ARCHIVE]
+     NTFS, blocksize=4096, 419 GB / 390 GiB
+   P MS Data                819234816 1748723711  929488896 [DATA]
+     NTFS, blocksize=4096, 475 GB / 443 GiB
+   P EFI System            1748723712 1749774299    1050588 [EFI System Partition] [NO NAME]
+     FAT32, blocksize=4096, 537 MB / 512 MiB
+
+Hint for advanced users: dmsetup may be used if you prefer to avoid rewriting the partition table for the moment:
+echo "0 819200000 linear /dev/sda 2048" | dmsetup create test0
+echo "0 929488896 linear /dev/sda 819234816" | dmsetup create test1
+echo "0 1050588 linear /dev/sda 1748723712" | dmsetup create test2
+
+interface_write()
+ 1 P MS Data                819234816 1748723711  929488896 [DATA]
+ 2 P EFI System            1748723712 1749774299    1050588 [EFI System Partition] [NO NAME]
+simulate write!
+
+Interface Advanced
+hdr_size=92
+hdr_lba_self=1
+hdr_lba_alt=1953525167 (expected 1953525167)
+hdr_lba_start=34
+hdr_lba_end=1953525134
+hdr_lba_table=2
+hdr_entries=128
+hdr_entsz=128
+check_part_gpt failed for partition
+ 2 P MS Reserved            819202048  819234815      32768 [Microsoft reserved partition]
+ 1 P MS Data                     2048  819202047  819200000 [Basic data partition] [ARCHIVE]
+     NTFS, blocksize=4096, 419 GB / 390 GiB
+ 2 P MS Reserved            819202048  819234815      32768 [Microsoft reserved partition]
+ 3 P MS Data                819234816 1748723711  929488896 [Basic data partition] [DATA]
+     NTFS, blocksize=4096, 475 GB / 443 GiB
+ 4 P EFI System            1748723712 1749774335    1050624
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+ 6 P Linux Swap            1951524864 1953523711    1998848
+
+
+dir_partition inode=2
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /
+       2 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 .
+       2 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 ..
+      11 drwx------     0      0     16384 17-Sep-2021 13:38 lost+found
+ 5898241 drwxr-xr-x     0      0      4096 28-Sep-2021 00:12 boot
+ 5111809 drwxr-xr-x     0      0     12288 20-Oct-2021 08:07 etc
+ 4587521 drwxr-xr-x     0      0      4096 17-Sep-2021 13:59 media
+      12 lrwxrwxrwx     0      0         7 17-Sep-2021 13:38 bin
+ 1572865 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 dev
+ 5767169 drwxr-xr-x     0      0      4096 19-Sep-2021 13:47 home
+      13 lrwxrwxrwx     0      0        30 17-Sep-2021 13:38 initrd.img
+      14 lrwxrwxrwx     0      0        30 17-Sep-2021 13:38 initrd.img.old
+      15 lrwxrwxrwx     0      0         7 17-Sep-2021 13:38 lib
+      16 lrwxrwxrwx     0      0         9 17-Sep-2021 13:38 lib32
+      17 lrwxrwxrwx     0      0         9 17-Sep-2021 13:38 lib64
+      18 lrwxrwxrwx     0      0        10 17-Sep-2021 13:38 libx32
+ 2228225 drwxr-xr-x     0      0      4096 14-Aug-2021 13:11 mnt
+ 3670017 drwxr-xr-x     0      0      4096 14-Aug-2021 13:11 opt
+ 3801089 drwxr-xr-x     0      0      4096 10-Apr-2021 23:15 proc
+ 2752513 drwx------     0      0      4096 20-Oct-2021 11:56 root
+  131073 drwxr-xr-x     0      0      4096 17-Sep-2021 13:57 run
+      19 lrwxrwxrwx     0      0         8 17-Sep-2021 13:38 sbin
+ 2359297 drwxr-xr-x     0      0      4096 14-Aug-2021 13:11 srv
+ 1703937 drwxr-xr-x     0      0      4096 10-Apr-2021 23:15 sys
+ 3538945 drwxrwxrwt     0      0      4096 20-Oct-2021 12:16 tmp
+ 5242881 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 usr
+ 2097153 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 var
+      20 lrwxrwxrwx     0      0        27 17-Sep-2021 13:41 vmlinuz
+      21 lrwxrwxrwx     0      0        27 17-Sep-2021 13:41 vmlinuz.old
+ 2490369 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 .cache
+
+dir_partition inode=5767169
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home
+ 5767169 drwxr-xr-x     0      0      4096 19-Sep-2021 13:47 .
+       2 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 ..
+ 5771868 drwxr-xr-x  1000   1000      4096 20-Oct-2021 02:31 nick
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 Projects
+
+dir_partition inode=5771868
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/nick
+ 5771868 drwxr-xr-x  1000   1000      4096 20-Oct-2021 02:31 .
+ 5767169 drwxr-xr-x     0      0      4096 19-Sep-2021 13:47 ..
+ 5771869 -rw-r--r--  1000   1000       220 17-Sep-2021 13:46 .bash_logout
+ 5771870 -rw-r--r--  1000   1000       807 17-Sep-2021 13:46 .profile
+ 5771871 -rw-r--r--  1000   1000      3526 17-Sep-2021 13:46 .bashrc
+ 5767170 drwxr-xr-x  1000   1000      4096 17-Sep-2021 13:59 .local
+ 5767173 drwxr-xr-x  1000   1000      4096 29-Sep-2021 18:59 .config
+ 5767179 drwxr-xr-x  1000   1000      4096 20-Oct-2021 00:14 .cache
+ 5767196 drwxr-xr-x  1000   1000      4096 17-Sep-2021 13:59 Desktop
+ 5767198 drwxr-xr-x  1000   1000      4096 29-Sep-2021 13:57 Downloads
+ 5767200 drwxr-xr-x  1000   1000      4096 17-Sep-2021 13:59 Templates
+ 5767201 drwxr-xr-x  1000   1000      4096 17-Sep-2021 13:59 Public
+ 5767202 drwxr-xr-x  1000   1000      4096 17-Sep-2021 13:59 Documents
+ 5767203 drwxr-xr-x  1000   1000      4096 17-Sep-2021 13:59 Music
+ 5767204 drwxr-xr-x  1000   1000      4096 29-Sep-2021 19:42 Pictures
+ 5767205 drwxr-xr-x  1000   1000      4096 17-Sep-2021 13:59 Videos
+ 5772015 drwx------  1000   1000      4096 17-Sep-2021 14:00 .mozilla
+ 5772426 drwx------  1000   1000      4096 17-Sep-2021 14:02 .ssh
+ 5772428 drwx------  1000   1000      4096 20-Oct-2021 00:18 .gnupg
+ 5772783 -rw-------  1000   1000       541 19-Oct-2021 19:54 .bash_history
+ 5772846 drwx------  1000   1000      4096 17-Sep-2021 15:17 .dbus
+ 5773949 -rw-r--r--     0      0 134787877 16-Aug-2021 20:47 go1.17.linux-amd64.tar.gz
+ 1444654 drwx------  1000   1000      4096 21-Sep-2021 00:59 .pki
+ 5773107 -rw-------  1000   1000       985 20-Oct-2021 02:31 .viminfo
+Directory /home
+ 5767169 drwxr-xr-x     0      0      4096 19-Sep-2021 13:47 .
+       2 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 ..
+ 5771868 drwxr-xr-x  1000   1000      4096 20-Oct-2021 02:31 nick
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 Projects
+
+dir_partition inode=5774668
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/Projects
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 .
+ 5767169 drwxr-xr-x     0      0      4096 19-Sep-2021 13:47 ..
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 hackademy
+X5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake
+ 5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake-api-service
+
+dir_partition inode=5774349
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/Projects/hackademy
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 .
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 ..
+ 6169093 drwxr-xr-x     0      0      4096 29-Sep-2021 20:23 .git
+ 5774670 -rw-r--r--     0      0       540 19-Sep-2021 13:48 README.md
+  805192 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 courses
+
+dir_partition inode=805192
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/Projects/hackademy/courses
+  805192 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 .
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ..
+  805205 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 bash
+  934070 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 cunix
+  934159 drwxr-xr-x     0      0      4096 19-Sep-2021 13:53 cunix2
+ 1049913 drwxr-xr-x     0      0      4096 29-Sep-2021 20:21 golang
+ 1049958 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ruby
+
+dir_partition inode=934070
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/Projects/hackademy/courses/cunix
+  934070 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 .
+  805192 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ..
+  934071 -rw-r--r--     0      0       444 19-Sep-2021 13:48 DESCRIPTION.md
+  934072 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 docs
+  934076 drwxr-xr-x     0      0      4096 19-Sep-2021 13:53 ex01
+  934083 drwxr-xr-x     0      0      4096 19-Sep-2021 13:53 ex02
+  934090 drwxr-xr-x     0      0      4096 19-Sep-2021 13:53 ex03
+  934097 drwxr-xr-x     0      0      4096 19-Sep-2021 13:53 ex04
+  934104 drwxr-xr-x     0      0      4096 19-Sep-2021 13:53 ex05
+  934112 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ex06
+  934120 drwxr-xr-x     0      0      4096 19-Sep-2021 13:53 ex07
+  934127 drwxr-xr-x     0      0      4096 19-Sep-2021 13:53 ex08
+  934134 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ex09
+  934141 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ex10
+  934148 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ex11
+  934155 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ex12
+ 1049404 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ex13
+ 1049412 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ex14
+ 1049858 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ex15
+Directory /home/Projects/hackademy/courses
+  805192 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 .
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ..
+  805205 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 bash
+  934070 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 cunix
+  934159 drwxr-xr-x     0      0      4096 19-Sep-2021 13:53 cunix2
+ 1049913 drwxr-xr-x     0      0      4096 29-Sep-2021 20:21 golang
+ 1049958 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ruby
+
+dir_partition inode=934159
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/Projects/hackademy/courses/cunix2
+  934159 drwxr-xr-x     0      0      4096 19-Sep-2021 13:53 .
+  805192 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ..
+  934160 -rw-r--r--     0      0       146 19-Sep-2021 13:48 README.md
+ 1049860 drwxr-xr-x     0      0      4096 19-Sep-2021 13:54 ft_printf
+ 1049877 drwxr-xr-x     0      0      4096 19-Sep-2021 14:06 libft
+  934181 -rw-r--r--     0      0         8 19-Sep-2021 13:53 .gitignore
+  934182 -rw-r--r--     0      0         0 19-Sep-2021 13:53 .gitignorecd
+Directory /home/Projects/hackademy/courses
+  805192 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 .
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ..
+  805205 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 bash
+  934070 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 cunix
+  934159 drwxr-xr-x     0      0      4096 19-Sep-2021 13:53 cunix2
+ 1049913 drwxr-xr-x     0      0      4096 29-Sep-2021 20:21 golang
+ 1049958 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ruby
+Directory /home/Projects/hackademy
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 .
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 ..
+ 6169093 drwxr-xr-x     0      0      4096 29-Sep-2021 20:23 .git
+ 5774670 -rw-r--r--     0      0       540 19-Sep-2021 13:48 README.md
+  805192 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 courses
+
+dir_partition inode=805192
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/Projects/hackademy/courses
+  805192 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 .
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ..
+  805205 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 bash
+  934070 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 cunix
+  934159 drwxr-xr-x     0      0      4096 19-Sep-2021 13:53 cunix2
+ 1049913 drwxr-xr-x     0      0      4096 29-Sep-2021 20:21 golang
+ 1049958 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 ruby
+Directory /home/Projects/hackademy
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 .
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 ..
+ 6169093 drwxr-xr-x     0      0      4096 29-Sep-2021 20:23 .git
+ 5774670 -rw-r--r--     0      0       540 19-Sep-2021 13:48 README.md
+  805192 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 courses
+Directory /home/Projects
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 .
+ 5767169 drwxr-xr-x     0      0      4096 19-Sep-2021 13:47 ..
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 hackademy
+X5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake
+ 5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake-api-service
+
+dir_partition inode=5899600
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/Projects/cake-api-service
+ 5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 .
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 ..
+ 5903044 -rw-r--r--     0      0       216 28-Sep-2021 01:25 go.mod
+ 5904210 -rw-r--r--     0      0      1034 29-Sep-2021 08:19 log.go
+ 5903045 -rw-r--r--     0      0     10599 28-Sep-2021 01:25 go.sum
+ 5898459 -rw-r--r--     0      0      1912 20-Oct-2021 10:57 main.go
+  931912 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 home
+ 5903052 -rw-r--r--     0      0      1675 28-Sep-2021 03:21 pubkey.rsa
+ 5904197 -rw-r--r--     0      0      1746 28-Sep-2021 12:53 user_repository.go
+ 5898461 -rw-r--r--     0      0      2510 20-Oct-2021 10:51 jwt.go
+  396751 drwxr-xr-x     0      0      4096 29-Sep-2021 20:19 .git
+ 5898469 -rw-r--r--     0      0      9257 20-Oct-2021 11:56 user_test.go
+ 5903054 -rw-r--r--     0      0       451 28-Sep-2021 03:21 privkey.rsa
+ 5898455 -rw-r--r--     0      0      4918 20-Oct-2021 12:26 testdisk.log
+ 5904199 -rw-r--r--     0      0      1311 29-Sep-2021 11:05 jwt_test.go
+ 5904216 -rw-r--r--     0      0      2751 29-Sep-2021 10:17 user_repository_test.go
+ 5904212 -rw-r--r--     0      0       841 29-Sep-2021 08:27 log_test.go
+X5898455 -rw-r--r--     0      0      4918 20-Oct-2021 12:26 .user_test.go.swp
+X5898469 -rw-r--r--     0      0      9257 20-Oct-2021 11:56 .user_test.go.swx
+X5904217 -rw-r--r--     0      0         0 29-Sep-2021 10:17 user_repository_test.go~
+
+dir_partition inode=931912
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/Projects/cake-api-service/home
+  931912 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 .
+ 5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 ..
+ 1072325 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 Projects
+
+dir_partition inode=1072325
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/Projects/cake-api-service/home/Projects
+ 1072325 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 .
+  931912 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 ..
+ 1210624 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake-api-service
+
+dir_partition inode=1210624
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/Projects/cake-api-service/home/Projects/cake-api-service
+ 1210624 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 .
+ 1072325 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 ..
+ 1210625 -rw-r--r--     0      0         0 20-Oct-2021 12:01 users.go
+Directory /home/Projects/cake-api-service/home/Projects
+ 1072325 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 .
+  931912 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 ..
+ 1210624 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake-api-service
+Directory /home/Projects/cake-api-service/home
+  931912 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 .
+ 5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 ..
+ 1072325 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 Projects
+Directory /home/Projects/cake-api-service
+ 5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 .
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 ..
+ 5903044 -rw-r--r--     0      0       216 28-Sep-2021 01:25 go.mod
+ 5904210 -rw-r--r--     0      0      1034 29-Sep-2021 08:19 log.go
+ 5903045 -rw-r--r--     0      0     10599 28-Sep-2021 01:25 go.sum
+ 5898459 -rw-r--r--     0      0      1912 20-Oct-2021 10:57 main.go
+  931912 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 home
+ 5903052 -rw-r--r--     0      0      1675 28-Sep-2021 03:21 pubkey.rsa
+ 5904197 -rw-r--r--     0      0      1746 28-Sep-2021 12:53 user_repository.go
+ 5898461 -rw-r--r--     0      0      2510 20-Oct-2021 10:51 jwt.go
+  396751 drwxr-xr-x     0      0      4096 29-Sep-2021 20:19 .git
+ 5898469 -rw-r--r--     0      0      9257 20-Oct-2021 11:56 user_test.go
+ 5903054 -rw-r--r--     0      0       451 28-Sep-2021 03:21 privkey.rsa
+ 5898455 -rw-r--r--     0      0      4918 20-Oct-2021 12:26 testdisk.log
+ 5904199 -rw-r--r--     0      0      1311 29-Sep-2021 11:05 jwt_test.go
+ 5904216 -rw-r--r--     0      0      2751 29-Sep-2021 10:17 user_repository_test.go
+ 5904212 -rw-r--r--     0      0       841 29-Sep-2021 08:27 log_test.go
+X5898455 -rw-r--r--     0      0      4918 20-Oct-2021 12:26 .user_test.go.swp
+X5898469 -rw-r--r--     0      0      9257 20-Oct-2021 11:56 .user_test.go.swx
+X5904217 -rw-r--r--     0      0         0 29-Sep-2021 10:17 user_repository_test.go~
+Directory /home/Projects
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 .
+ 5767169 drwxr-xr-x     0      0      4096 19-Sep-2021 13:47 ..
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 hackademy
+X5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake
+ 5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake-api-service
+
+dir_partition inode=5774349
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/Projects/hackademy
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 .
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 ..
+ 6169093 drwxr-xr-x     0      0      4096 29-Sep-2021 20:23 .git
+ 5774670 -rw-r--r--     0      0       540 19-Sep-2021 13:48 README.md
+  805192 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 courses
+Directory /home/Projects
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 .
+ 5767169 drwxr-xr-x     0      0      4096 19-Sep-2021 13:47 ..
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 hackademy
+X5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake
+ 5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake-api-service
+
+dir_partition inode=5774349
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/Projects/hackademy
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 .
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 ..
+ 6169093 drwxr-xr-x     0      0      4096 29-Sep-2021 20:23 .git
+ 5774670 -rw-r--r--     0      0       540 19-Sep-2021 13:48 README.md
+  805192 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 courses
+Directory /home/Projects
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 .
+ 5767169 drwxr-xr-x     0      0      4096 19-Sep-2021 13:47 ..
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 hackademy
+X5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake
+ 5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake-api-service
+
+dir_partition inode=5899600
+ 5 P Linux filesys. data   1749774336 1951524863  201750528
+Directory /home/Projects/cake
+ 5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 .
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 ..
+ 5903044 -rw-r--r--     0      0       216 28-Sep-2021 01:25 go.mod
+ 5904210 -rw-r--r--     0      0      1034 29-Sep-2021 08:19 log.go
+ 5903045 -rw-r--r--     0      0     10599 28-Sep-2021 01:25 go.sum
+ 5898459 -rw-r--r--     0      0      1912 20-Oct-2021 10:57 main.go
+  931912 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 home
+ 5903052 -rw-r--r--     0      0      1675 28-Sep-2021 03:21 pubkey.rsa
+ 5904197 -rw-r--r--     0      0      1746 28-Sep-2021 12:53 user_repository.go
+ 5898461 -rw-r--r--     0      0      2510 20-Oct-2021 10:51 jwt.go
+  396751 drwxr-xr-x     0      0      4096 29-Sep-2021 20:19 .git
+ 5898469 -rw-r--r--     0      0      9257 20-Oct-2021 11:56 user_test.go
+ 5903054 -rw-r--r--     0      0       451 28-Sep-2021 03:21 privkey.rsa
+ 5898455 -rw-r--r--     0      0      4918 20-Oct-2021 12:26 testdisk.log
+ 5904199 -rw-r--r--     0      0      1311 29-Sep-2021 11:05 jwt_test.go
+ 5904216 -rw-r--r--     0      0      2751 29-Sep-2021 10:17 user_repository_test.go
+ 5904212 -rw-r--r--     0      0       841 29-Sep-2021 08:27 log_test.go
+X5898455 -rw-r--r--     0      0      4918 20-Oct-2021 12:26 .user_test.go.swp
+X5898469 -rw-r--r--     0      0      9257 20-Oct-2021 11:56 .user_test.go.swx
+X5904217 -rw-r--r--     0      0         0 29-Sep-2021 10:17 user_repository_test.go~
+Directory /home/Projects
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 .
+ 5767169 drwxr-xr-x     0      0      4096 19-Sep-2021 13:47 ..
+ 5774349 drwxr-xr-x     0      0      4096 19-Sep-2021 13:48 hackademy
+X5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake
+ 5899600 drwxr-xr-x     0      0      4096 20-Oct-2021 12:15 cake-api-service
+Directory /home
+ 5767169 drwxr-xr-x     0      0      4096 19-Sep-2021 13:47 .
+       2 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 ..
+ 5771868 drwxr-xr-x  1000   1000      4096 20-Oct-2021 02:31 nick
+ 5774668 drwxr-xr-x     0      0      4096 29-Sep-2021 20:12 Projects
+Directory /
+       2 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 .
+       2 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 ..
+      11 drwx------     0      0     16384 17-Sep-2021 13:38 lost+found
+ 5898241 drwxr-xr-x     0      0      4096 28-Sep-2021 00:12 boot
+ 5111809 drwxr-xr-x     0      0     12288 20-Oct-2021 08:07 etc
+ 4587521 drwxr-xr-x     0      0      4096 17-Sep-2021 13:59 media
+      12 lrwxrwxrwx     0      0         7 17-Sep-2021 13:38 bin
+ 1572865 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 dev
+ 5767169 drwxr-xr-x     0      0      4096 19-Sep-2021 13:47 home
+      13 lrwxrwxrwx     0      0        30 17-Sep-2021 13:38 initrd.img
+      14 lrwxrwxrwx     0      0        30 17-Sep-2021 13:38 initrd.img.old
+      15 lrwxrwxrwx     0      0         7 17-Sep-2021 13:38 lib
+      16 lrwxrwxrwx     0      0         9 17-Sep-2021 13:38 lib32
+      17 lrwxrwxrwx     0      0         9 17-Sep-2021 13:38 lib64
+      18 lrwxrwxrwx     0      0        10 17-Sep-2021 13:38 libx32
+ 2228225 drwxr-xr-x     0      0      4096 14-Aug-2021 13:11 mnt
+ 3670017 drwxr-xr-x     0      0      4096 14-Aug-2021 13:11 opt
+ 3801089 drwxr-xr-x     0      0      4096 10-Apr-2021 23:15 proc
+ 2752513 drwx------     0      0      4096 20-Oct-2021 11:56 root
+  131073 drwxr-xr-x     0      0      4096 17-Sep-2021 13:57 run
+      19 lrwxrwxrwx     0      0         8 17-Sep-2021 13:38 sbin
+ 2359297 drwxr-xr-x     0      0      4096 14-Aug-2021 13:11 srv
+ 1703937 drwxr-xr-x     0      0      4096 10-Apr-2021 23:15 sys
+ 3538945 drwxrwxrwt     0      0      4096 20-Oct-2021 12:16 tmp
+ 5242881 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 usr
+ 2097153 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 var
+      20 lrwxrwxrwx     0      0        27 17-Sep-2021 13:41 vmlinuz
+      21 lrwxrwxrwx     0      0        27 17-Sep-2021 13:41 vmlinuz.old
+ 2490369 drwxr-xr-x     0      0      4096 17-Sep-2021 13:41 .cache
+
+TestDisk exited normally.

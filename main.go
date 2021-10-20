@@ -8,7 +8,6 @@ import (
 	"os/signal"
 	"time"
 	"github.com/gorilla/mux"
-	"strings"
 )
 
 func getCakeHandler(w http.ResponseWriter, r *http.Request, u User) {
@@ -25,29 +24,6 @@ func wrapJwt(
 }
 
 type ProtectedHandler func(rw http.ResponseWriter, r *http.Request, u User)
-
-func (j *JWTService) jwtAuth(
-	users UserRepository,
-	h ProtectedHandler,
-) http.HandlerFunc {
-	return func(rw http.ResponseWriter, r *http.Request) {
-		authHeader := r.Header.Get("Authorization")
-		token := strings.TrimPrefix(authHeader, "Bearer ")
-		auth, err := j.ParseJWT(token)
-		if err != nil {
-			rw.WriteHeader(401)
-			rw.Write([]byte("unauthorized"))
-			return
-		}
-		user, err := users.Get(auth.Email)
-		if err != nil {
-			rw.WriteHeader(401)
-			rw.Write([]byte("unauthorized"))
-			return
-		}
-		h(rw, r, user)
-	}
-}
 
 func main() {
 	r := mux.NewRouter()
@@ -66,6 +42,15 @@ func main() {
 	r.HandleFunc("/user/jwt", logRequest(wrapJwt(jwtService,
 	userService.JWT))).
 	Methods(http.MethodPost)
+	r.HandleFunc("/user/favorite_cake", logRequest(jwtService.AuthenticationJWT(users, userService.UpdateCake))).
+		Methods(http.MethodPut)
+	r.HandleFunc("/user/email", logRequest(jwtService.AuthenticationJWT(users, userService.UpdateEmail))).
+		Methods(http.MethodPut)
+	r.HandleFunc("/user/password", logRequest(jwtService.AuthenticationJWT(users, userService.UpdatePassword))).
+		Methods(http.MethodPut)
+	r.HandleFunc("/user/me", logRequest(jwtService.AuthenticationJWT(users, userService.GetMe)))
+
+
 	srv := http.Server{
 		Addr: ":8080",
 		Handler: r,

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"encoding/json"
 	"errors"
+	"strings"
 )
 type JWTService struct {
 	keys *auth.KeyStore
@@ -61,4 +62,27 @@ func (u *UserService) JWT(
 	}
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(token))
+}
+
+func (j *JWTService) AuthenticationJWT(
+	users UserRepository,
+	prHandler ProtectedHandler,
+) http.HandlerFunc {
+	return func(rw http.ResponseWriter, r *http.Request) {
+		header := r.Header.Get("Authorization")
+		token := strings.TrimPrefix(header, "Bearer ")
+		auth, err := j.ParseJWT(token)
+		if err != nil {
+			rw.WriteHeader(401)
+			rw.Write([]byte("unauthorized"))
+			return
+		}
+		user, err := users.Get(auth.Email)
+		if err != nil {
+			rw.WriteHeader(401)
+			rw.Write([]byte("unauthorized"))
+			return
+		}
+		prHandler(rw, r, user)
+	}
 }
